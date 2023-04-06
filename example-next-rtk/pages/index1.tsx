@@ -1,9 +1,13 @@
-import type { InferGetServerSidePropsType, NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 
 import { wrapperInitializer } from '@/store'
 
-const IndexPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ title }) => {
+interface Props {
+  title: string
+}
+
+const IndexPage: NextPage<Props> = ({ title }) => {
   return (
     <div>
       <Head>
@@ -16,6 +20,6 @@ const IndexPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
 
 const wrapper = wrapperInitializer.getPageWrapper()
 
-export const getServerSideProps = wrapper.wrapGetServerSideProps({ title: 'Index page (with Get Server-side Props)' })
+IndexPage.getInitialProps = wrapper.wrapGetInitialProps({ title: 'Index page (with Get Initial Props)' })
 
 export default wrapper.wrapPage(IndexPage)

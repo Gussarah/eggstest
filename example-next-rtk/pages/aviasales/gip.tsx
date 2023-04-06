@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { InferGetServerSidePropsType, NextPage } from 'next'
 import Head from 'next/head'
 
 import { Aviasales } from '@/components/aviasales'
@@ -6,11 +6,11 @@ import { getAviasalesEgg } from '@/eggs/aviasales'
 import { AviasalesPublicAction } from '@/eggs/aviasales/events'
 import { wrapperInitializer } from '@/store'
 
-const AviasalesPage: NextPage = () => {
+const AviasalesPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = () => {
   return (
     <div>
       <Head>
-        <title>Aviasales page (with Get Initial Props)</title>
+        <title>Aviasales page (with Get Server-side Props)</title>
       </Head>
       <Aviasales />
     </div>
@@ -19,10 +19,12 @@ const AviasalesPage: NextPage = () => {
 
 const wrapper = wrapperInitializer.getPageWrapper([getAviasalesEgg()])
 
-AviasalesPage.getInitialProps = wrapper.wrapGetInitialProps(() => () => {
+export const getServerSideProps = wrapper.wrapGetServerSideProps(() => async () => {
   AviasalesPublicAction.getTickets()
 
-  return {}
+  return {
+    props: {},
+  }
 })
 
 export default wrapper.wrapPage(AviasalesPage)

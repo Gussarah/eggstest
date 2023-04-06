@@ -1,8 +1,13 @@
-import type { InferGetServerSidePropsType, NextPage } from 'next'
+import type { NextPage } from 'next'
+import Link from 'next/Link';
 import Head from 'next/head'
 
 import { ChuckNorrisJoke } from '@/components/chuck-norris-content'
 import { wrapperInitializer } from '@/store'
+
+interface Props {
+  title: string
+}
 
 const styles = {
   fontSize: '30px',
@@ -12,13 +17,14 @@ const styles = {
   justifyContent: 'center',
 }
 
-const ChuckNorrisPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ title }) => {
+const ChuckNorrisPage: NextPage<Props> = ({ title }) => {
   return (
     <div>
       <Head>
-        <title>{title}</title>
+        <title>{title}123</title>
       </Head>
-      <h1>{title}</h1>
+      <h1>{title}12321</h1>
+      <Link href="/aviasales/gip">Home</Link>
       <div style={{ ...styles, background: 'red' }}>Scroll ...</div>
       <ChuckNorrisJoke />
       <div style={{ ...styles, background: 'green' }}>Scroll ...</div>
@@ -32,8 +38,8 @@ const ChuckNorrisPage: NextPage<InferGetServerSidePropsType<typeof getServerSide
 
 const wrapper = wrapperInitializer.getPageWrapper()
 
-export const getServerSideProps = wrapper.wrapGetServerSideProps({
-  title: 'Chuck Norris page (with Get Server-side Props)',
+ChuckNorrisPage.getInitialProps = wrapper.wrapGetInitialProps({
+  title: 'Chuck Norris page (with Get Initial Props)',
 })
 
 export default wrapper.wrapPage(ChuckNorrisPage)
